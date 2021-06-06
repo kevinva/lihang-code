@@ -12,3 +12,5 @@ X = data[data.columns[0:2]]
 y = data[data.columns[2]]
 clf = NB(1)
 clf.fit(X, y)
+rst = clf.predict([2, 'S'])
+print(rst)
