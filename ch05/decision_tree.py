@@ -1,5 +1,3 @@
-from sklearn.model_selection import train_test_split
-import pandas as pd
 import numpy as np
 
 class DecisionTree:
@@ -46,6 +44,7 @@ class DecisionTree:
 
         # 如果该节点只有一个类别，则选该类别
         if len(set(labels)) == 1:
+            print('len(set(labels)) == 1')
             return labels[0]
 
         # 数量最多的类别
@@ -53,10 +52,12 @@ class DecisionTree:
 
         # 如果该节点无更多的可划分的特征，则选数量最多的类别
         if len(features) == 0:
+            print('len(features) == 0')
             return max_label
 
         max_feature = 0   # 用于划分的最优特征
         max_criterion = 0
+
         D = labels
         for feature in features:
             A = x[:, feature]
@@ -72,8 +73,13 @@ class DecisionTree:
 
         # 信息增益大于一定的阈值，则直接选该节点数量最多的类别
         if max_criterion < eps:
+            print('max_criterion < eps')
             return max_label
-        
+
+        print('max_feature: {}, max_criterion: {}, eps: {}'.format(max_feature, max_criterion, eps))
+        print(x)
+
+
         T = dict()
         sub_T = dict()
         for x_A in set(x[:, max_feature]):
@@ -81,11 +87,38 @@ class DecisionTree:
             sub_x = x[x[:, max_feature] == x_A, :]  # 属于相同特征值的样本
             sub_x = np.delete(sub_x, max_feature, 1) # 删除max_feature对于特征的那一列，第三个参数表示axis
             sub_T[str(x_A) + '__' + str(sub_D.shape[0])] = self.build_tree(sub_x, sub_D, eps)   # 以“特征值__对应类别数”作为key
-        
         T[str(self.features[max_feature]) + '__' + str(D.shape[0])] = sub_T
         return T
 
         ### hoho_check!
+
+    def describe_tree(self, tree=None):
+        rst = []
+        if not tree:
+            tree = self.tree
+
+        for feature_idx in tree.keys():
+            tmp = dict()
+            feature_symbols = feature_idx.split('__')
+            tmp['name'] = feature_symbols[0]
+            tmp['value'] = feature_symbols[1]
+            if type(tree[feature_idx]) == dict:
+                tmp['children'] = self.describe_tree(tree[feature_idx])
+            else:
+                tmp['children'] = [{'name': tree[feature_idx], 'value': 10}]  # hoho_todo: 为什么value取10？
+            
+            rst.append(tmp)   # rst装的是根节点下的子树分支列表
+        return rst
+
+    def plot_tree(self, depth=3):
+        from pyecharts import TreeMap
+
+        data = self.describe_tree(self.tree)
+        tree_map = TreeMap(self.name, '', width=800, height=600)
+        tree_map.use_theme('dark')
+        tree_map.add(self.name, data, is_label_show=True, label_pos='inside', treemap_left_depth=depth)
+        return tree_map
+
 
 
 
@@ -116,6 +149,6 @@ def gain(x, y):
 # 信息增益比
 def gain_ratio(x, y):
     return gain(x, y) / cal_ent(x)
-            
+        
                 
             

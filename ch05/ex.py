@@ -1,12 +1,73 @@
 import numpy as np
-from decision_tree import cal_ent
+from sklearn.model_selection import train_test_split
+import pandas as pd
+from decision_tree import *
 
-myList = np.array([[1, 2, 3], [4, 5, 6], [1, 4, 5]])
-print(type(myList[:, 2]))
-for x_value in set(myList[:, 0]):
-    print(myList[myList[:, 0] == x_value])
+df = pd.read_csv('mdata_5-1.txt', index_col=0)
+# print(df.head())
 
-# x_values = list(set(myList))
-# for x_value in x_values:
-#     print(myList[myList == x_value])
-# cal_ent(myList)
+cols = df.columns.tolist()
+X = df[cols[:-1]].values
+y = df[cols[-1]].values
+# print(X)
+# print(y)
+
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+clf = DecisionTree(eps=0.02, feas=cols, criterion='gr')
+clf.fit(X_train, y_train)
+# print(clf.tree)
+
+rst = clf.describe_tree(clf.tree)
+print(rst)
+# clf.plot_tree(depth=5)
+
+# [
+#     { 
+#         'name': '有自己的房子', 
+#         'value': '10', 
+#         'children': [
+#             {
+#                 'name': '是', 
+#                 'value': '5', 
+#                 'children': [
+#                     {
+#                         'name': '批准', 
+#                         'value': 10
+#                     }
+#                 ]
+#             }, 
+#             {
+#                 'name': '否', 
+#                 'value': '5', 
+#                 'children': [
+#                     {
+#                         'name': '有工作', 
+#                         'value': '5', 
+#                         'children': [
+#                             {
+#                                 'name': '是', 
+#                                 'value': '1', 
+#                                 'children': [
+#                                     {
+#                                         'name': '批准', 
+#                                         'value': 10
+#                                     }
+#                                 ]
+#                             }, 
+#                             {
+#                                 'name': '否', 
+#                                 'value': '4', 
+#                                 'children': [
+#                                     {
+#                                         'name': '拒绝', 
+#                                         'value': 10
+#                                     }
+#                                 ]
+#                             }
+#                         ]
+#                     }
+#                 ]
+#             }
+#         ]
+#     }
+# ]
