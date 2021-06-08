@@ -1,5 +1,6 @@
 import numpy as np
-
+from pyecharts.charts import TreeMap
+ 
 class DecisionTree:
 
     def __init__(self, eps, feas, name=None, criterion='entropy'):
@@ -44,7 +45,7 @@ class DecisionTree:
 
         # 如果该节点只有一个类别，则选该类别
         if len(set(labels)) == 1:
-            print('len(set(labels)) == 1')
+            # print('len(set(labels)) == 1')
             return labels[0]
 
         # 数量最多的类别
@@ -52,7 +53,7 @@ class DecisionTree:
 
         # 如果该节点无更多的可划分的特征，则选数量最多的类别
         if len(features) == 0:
-            print('len(features) == 0')
+            # print('len(features) == 0')
             return max_label
 
         max_feature = 0   # 用于划分的最优特征
@@ -73,11 +74,11 @@ class DecisionTree:
 
         # 信息增益大于一定的阈值，则直接选该节点数量最多的类别
         if max_criterion < eps:
-            print('max_criterion < eps')
+            # print('max_criterion < eps')
             return max_label
 
-        print('max_feature: {}, max_criterion: {}, eps: {}'.format(max_feature, max_criterion, eps))
-        print(x)
+        # print('max_feature: {}, max_criterion: {}, eps: {}'.format(max_feature, max_criterion, eps))
+        # print(x)
 
 
         T = dict()
@@ -111,12 +112,11 @@ class DecisionTree:
         return rst
 
     def plot_tree(self, depth=3):
-        from pyecharts import TreeMap
-
         data = self.describe_tree(self.tree)
-        tree_map = TreeMap(self.name, '', width=800, height=600)
+        tree_map = TreeMap(self.name, width=1200, height=600)
         tree_map.use_theme('dark')
         tree_map.add(self.name, data, is_label_show=True, label_pos='inside', treemap_left_depth=depth)
+        tree_map.render()
         return tree_map
 
 

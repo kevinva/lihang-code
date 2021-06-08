@@ -18,8 +18,8 @@ clf.fit(X_train, y_train)
 # print(clf.tree)
 
 rst = clf.describe_tree(clf.tree)
-print(rst)
-# clf.plot_tree(depth=5)
+# print(rst)
+clf.plot_tree(depth=5)
 
 # [
 #     { 
