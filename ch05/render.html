@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Awesome-pyecharts</title>
+            <script type="text/javascript" src="https://assets.pyecharts.org/assets/echarts.min.js"></script>
+
+</head>
+<body>
+    <div id="99048456effb4c68898df9cfac940932" class="chart-container" style="width:900px; height:500px;"></div>
+    <script>
+        var chart_99048456effb4c68898df9cfac940932 = echarts.init(
+            document.getElementById('99048456effb4c68898df9cfac940932'), 'white', {renderer: 'canvas'});
+        var option_99048456effb4c68898df9cfac940932 = {
+    "animation": true,
+    "animationThreshold": 2000,
+    "animationDuration": 1000,
+    "animationEasing": "cubicOut",
+    "animationDelay": 0,
+    "animationDurationUpdate": 300,
+    "animationEasingUpdate": "cubicOut",
+    "animationDelayUpdate": 0,
+    "color": [
+        "#c23531",
+        "#2f4554",
+        "#61a0a8",
+        "#d48265",
+        "#749f83",
+        "#ca8622",
+        "#bda29a",
+        "#6e7074",
+        "#546570",
+        "#c4ccd3",
+        "#f05b72",
+        "#ef5b9c",
+        "#f47920",
+        "#905a3d",
+        "#fab27b",
+        "#2a5caa",
+        "#444693",
+        "#726930",
+        "#b2d235",
+        "#6d8346",
+        "#ac6767",
+        "#1d953f",
+        "#6950a1",
+        "#918597"
+    ],
+    "series": [
+        {
+            "type": "treemap",
+            "name": "Decision Tree",
+            "data": [
+                {
+                    "name": "\u6709\u5de5\u4f5c",
+                    "value": "10",
+                    "children": [
+                        {
+                            "name": "\u5426",
+                            "value": "6",
+                            "children": [
+                                {
+                                    "name": "\u6709\u5de5\u4f5c",
+                                    "value": "6",
+                                    "children": [
+                                        {
+                                            "name": "\u5426",
+                                            "value": "4",
+                                            "children": [
+                                                {
+                                                    "name": "\u62d2\u7edd",
+                                                    "value": 10
+                                                }
+                                            ]
+                                        },
+                                        {
+                                            "name": "\u662f",
+                                            "value": "2",
+                                            "children": [
+                                                {
+                                                    "name": "\u6279\u51c6",
+                                                    "value": 10
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
+                        },
+                        {
+                            "name": "\u662f",
+                            "value": "4",
+                            "children": [
+                                {
+                                    "name": "\u6279\u51c6",
+                                    "value": 10
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "width": 800,
+            "height": 600,
+            "label": {
+                "show": true,
+                "position": "inside",
+                "margin": 8
+            },
+            "upperlabel": {
+                "show": true,
+                "position": "inside",
+                "margin": 8
+            },
+            "leafDepth": 5,
+            "drillDownIcon": "\u25b6",
+            "roam": true,
+            "nodeClick": "zoomToNode",
+            "zoomToNodeRatio": 0.1024,
+            "colorMappingBy": "index",
+            "visibleMin": 10
+        }
+    ],
+    "legend": [
+        {
+            "data": [
+                "Decision Tree"
+            ],
+            "selected": {
+                "Decision Tree": true
+            }
+        }
+    ],
+    "tooltip": {
+        "show": true,
+        "trigger": "item",
+        "triggerOn": "mousemove|click",
+        "axisPointer": {
+            "type": "line"
+        },
+        "showContent": true,
+        "alwaysShowContent": false,
+        "showDelay": 0,
+        "hideDelay": 100,
+        "textStyle": {
+            "fontSize": 14
+        },
+        "borderWidth": 0,
+        "padding": 5
+    }
+};
+        chart_99048456effb4c68898df9cfac940932.setOption(option_99048456effb4c68898df9cfac940932);
+    </script>
+</body>
+</html>

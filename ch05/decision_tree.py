@@ -113,9 +113,8 @@ class DecisionTree:
 
     def plot_tree(self, depth=3):
         data = self.describe_tree(self.tree)
-        tree_map = TreeMap(self.name, width=1200, height=600)
-        tree_map.use_theme('dark')
-        tree_map.add(self.name, data, is_label_show=True, label_pos='inside', treemap_left_depth=depth)
+        tree_map = TreeMap()
+        tree_map.add(self.name, data, leaf_depth=depth, width=800, height=600)
         tree_map.render()
         return tree_map
 
