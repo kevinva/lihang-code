@@ -118,7 +118,40 @@ class DecisionTree:
         tree_map.render()
         return tree_map
 
+    def choose_best_feature(self, x, y):
+        rst = []
+        for i in range(x.shape[1]):
+            for s_value in set(x[:, i]):
+                rst.append((i, s_value, gini(x[:, i], y=y, s=s_value)))
+        rst.sort(key=lambda x: x[2])
+        return rst[0] if rst != [] else rst
 
+    def build_cart(self, x, y):
+        cart = dict()
+        feature = self.choose_best_feature(x, y)
+        if len(feature) > 0:
+            key = feature[:2]
+            idx_l = x[:, feature[0]] == feature[1]   # 左分支的值列表
+            idx_r = x[:, feature[0]] != feature[1]   # 右分支的值列表
+            if len(set(y)) == 1:
+                cart = y[0]
+            elif feature[2] == 0:
+                cart[key] = {'left': y[idx_l][0], 'right': y[idx_r][0]}
+            else:
+                if x.shape[1] > 1:
+                    x_l = x[idx_l, :]
+                    x_r = x[idx_r, :]
+                else:
+                    x_l = x[idx_l]
+                    x_r = x[idx_r]
+                y_l = y[idx_l]
+                y_r = y[idx_r]
+                cart[key] = {'left': self.build_cart(x_l, y_l),
+                             'right': self.build_cart(x_r, y_r)}
+        else:
+            pass
+        
+        return cart
 
 
 # 计算熵
@@ -151,3 +184,17 @@ def gain_ratio(x, y):
         
                 
             
+# 基尼指数(或基于某特征的基尼指数)
+def gini(x, y=None, s=None): # s为切分点的值
+    if y is None:
+        x_values = list(set(x))
+        p = 0
+        for x_value in x_values:
+            p += (x[x == x_value].shape[0] / x.shape[0]) ** 2
+        return 1 - p
+    else:
+        D1 = y[x == s]
+        D2 = y[x != s]
+        rst = D1.shape[0] / y.shape[0] * gini(D1) + D2.shape[0] / y.shape[0] * gini(D2)
+        return rst
+    
