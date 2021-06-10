@@ -150,8 +150,11 @@ class DecisionTree:
                              'right': self.build_cart(x_r, y_r)}
         else:
             pass
-        
+
         return cart
+
+    def pruning(self):
+        pass  # hoho_todo，剪枝
 
 
 # 计算熵
