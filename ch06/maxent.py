@@ -33,13 +33,13 @@ class MaxEntropy:
                     self._numXY[(x, y)] = 1
         self._N = len(self._samples)
         self._n = len(self._numXY)
-        self._C = max([len(sample) - 1 for sample in self._samples])
+        self._C = max([len(sample) - 1 for sample in self._samples]) 
         self._w = [0] * self._n
         self._lastw = self._w[:]
 
         self._Ep_ = [0] * self._n
-        for i, xy in enumerate(self._numXY):   # 计算特征函数f_i 关于经验分布的期望
-            self._Ep_[i] = self._numXY[xy] / self._N  # hoho_todo，期望是这样算的？
+        for i, xy in enumerate(self._numXY):   # 计算特征函数f_i 关于经验分布~P(X, Y)的期望
+            self._Ep_[i] = self._numXY[xy] / self._N  # hoho_todo，期望是这样算的？(hoho_fix: 这里应该假设了特征函数为f(x, y) = 1)
             self._xyID[xy] = i
             self._IDxy[i] = xy
     
@@ -49,7 +49,7 @@ class MaxEntropy:
             ss = 0
             for x in X:
                 if (x, y) in self._numXY:
-                    ss += self._w[self._xyID[(x, y)]]
+                    ss += self._w[self._xyID[(x, y)]]   # 特征函数f(x, y) 恒为 1
             zx += math.exp(ss)
         return zx
 
@@ -58,8 +58,8 @@ class MaxEntropy:
         ss = 0
         for x in X:
             if (x, y) in self._numXY:
-                ss += self._w[self._xyID[(x, y)]]
-        pyx = math.exp(ss) / zx            # hoho_todo, 为啥要加exp(...)
+                ss += self._w[self._xyID[(x, y)]]    # 特征函数f(x, y) 恒为 1
+        pyx = math.exp(ss) / zx            # hoho_todo, 为啥要加exp（hoho_fix: 看教材！！！）
         return pyx
 
     def model_ep(self, index):    # 计算特征函数f_i 关于模型的期望
@@ -69,7 +69,7 @@ class MaxEntropy:
             if x not in sample:
                 continue
             pyx = self.model_pyx(y, sample)
-            ep += pyx / self._N
+            ep += pyx / self._N   # hoho_todo: 这里不对， 应该为~P(X = x) * pyx / self._N (hoho_fix: ~P(X = x)为1，这里只是计算单个x值的概率)
         return ep
 
     def convergence(self):
@@ -84,7 +84,7 @@ class MaxEntropy:
             self._lastw = self._w[:]
             for i in range(self._n):
                 ep = self.model_ep(i)
-                self._w[i] += math.log(self._Ep_[i] / ep) / self._C
+                self._w[i] += math.log(self._Ep_[i] / ep) / self._C   # 参考改进的迭代尺度算法
             print('w:', self._w)
             if self.convergence():
                 break
