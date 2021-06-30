@@ -3,6 +3,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
+from svm import SVM
 
 
 def create_data():
@@ -18,7 +19,13 @@ def create_data():
 
 X, y = create_data()
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-plt.scatter(X[:50, 0], X[:50, 1], label='0')
-plt.scatter(X[50:, 0], X[50:, 1], label='1')
-plt.legend()
-plt.show()
+# plt.scatter(X[:50, 0], X[:50, 1], label='0')
+# plt.scatter(X[50:, 0], X[50:, 1], label='1')
+# plt.legend()
+# plt.show()
+
+svm = SVM(max_iter=200)
+result = svm.fit(X_train, y_train)
+print(result)
+score = svm.score(X_test, y_test)
+print("score: ", score)
