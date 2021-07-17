@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
+from adaboost import AdaBoost
 
 def create_data():
     iris = load_iris()
@@ -21,7 +22,12 @@ X, y = create_data()
 # print(X)
 # print(y)
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-plt.scatter(X[:50, 0], X[:50, 1], label='0')
-plt.scatter(X[50:, 0], X[50:, 1], label='1')
-plt.legend()
-plt.show()
+# plt.scatter(X[:50, 0], X[:50, 1], label='0')
+# plt.scatter(X[50:, 0], X[50:, 1], label='1')
+# plt.legend()
+# plt.show()
+
+
+clf = AdaBoost(n_estimators=50, learning_rate=0.2)
+clf.fit(X_train, y_train)
+print(clf.score(X_test, y_test))
